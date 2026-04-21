@@ -1,0 +1,30 @@
+{
+  "name": "final-boggero-back-end",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "DeepDev Studio",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "1.13.4",
+    "body-parser": "2.2.2",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.6",
+    "csv-parser": "3.2.0",
+    "dotenv": "17.2.3",
+    "express": "5.2.1",
+    "express-rate-limit": "8.2.1",
+    "firebase": "12.8.0",
+    "firebase-admin": "13.6.0",
+    "mongodb": "7.0.0",
+    "mongoose": "9.1.5",
+    "multer": "2.1.1",
+    "nodemailer": "7.0.13"
+  }
+}
