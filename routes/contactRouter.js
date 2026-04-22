@@ -1,27 +1,50 @@
-// Express y Router
 const express = require("express")
 const contactRouter = express.Router()
-// Firebase
-const auth = require("../config/firebase")
-// Models
 const Contact = require("../models/ContactSchema")
 
-const esProduccion = (process.env.NODE_ENV === 'ppproduction');
-
+// Create
 contactRouter.post("/contact", async (req, res) => {
-    const { name, lastName, companyName, contactRole, email, phone, projectOption, typeOfWork, currentUrl, description, projectGoal, budgetRange, availableTime } = req.body
-    
-    if(!name || !lastName || !companyName || !contactRole || !email || !phone || !projectOption || !typeOfWork || !description || !projectGoal || !budgetRange || !availableTime){
-        return res.status(400).json({ message: "All required fields must be filled! 🔴" })
-    }
+    const { name, lastName, phone, email, type, comment }  = req.body
     try {
-        const form = { name, lastName, companyName, contactRole, email, phone, projectOption, typeOfWork, currentUrl, description, projectGoal, budgetRange, availableTime }
-        await Contact.create(form)
+        if(!name || !lastName || !phone || !email || !type) {
+            return res.status(400).json({ message: `All fields are required! 🔴` })
+        }
+        const newContact = { name, lastName, phone, email, type, comment }
 
-        return res.status(201).json({ message: "Contact form submitted successfully! 🟢" })
+        await Contact.create(newContact)
+        res.status(201).send({ message: `Contact created successfully! 🟢`, contact: newContact })
     } catch (error) {
-        console.error(esProduccion ? `Error creating new contact! 🔴` : `Error creating new contact! 🔴 ${error}`);
-        res.status(500).send({ message: `Error creating new contact! 🔴` })
+        console.error(`Error creating new contact! 🔴 ${error}`);
+        res.status(500).send({ message: `Error creating new contact! 🔴 ${error}` })
+    }
+})
+
+// Read
+contactRouter.get("/contacts", async (req, res) => {
+    try {
+        const contacts = await Contact.find()
+        if(contacts.length === 0){
+            return res.status(404).send({ message: `No contacts avaliable in DB! 🔴` })
+        }
+        res.status(200).send(contacts)
+    } catch (error) {
+        console.error(`Error reading contacts on DB! 🔴 ${error}`);
+        res.status(500).send({ message: `Error reading contacts on DB! 🔴 ${error}` })
+    }
+})
+
+// Delete
+contactRouter.delete("/deletecontact/:id", async (req, res) => {
+    const id = req.params.id
+    try {
+        const contact = await Contact.findByIdAndDelete(id)
+        if(!contact){
+            return res.status(404).send({ message: `No contact with ID: ${id} avaliable in DB! 🔴` })
+        }
+        res.status(200).send({ message: `Contact with ID: ${id} deleted successfully! 🟢` })
+    } catch (error) {
+        console.error(`Error deleting contact on DB! 🔴 ${error}`);
+        res.status(500).send({ message: `Error deleting contact on DB! 🔴 ${error}` })
     }
 })
 

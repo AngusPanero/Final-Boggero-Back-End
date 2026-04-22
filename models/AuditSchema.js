@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const AuditSchema = new mongoose.Schema({
-    uid: {
+const AuthAuditSchema = new mongoose.Schema({
+  uid: {
     type: String,
     index: true
   },
@@ -12,7 +12,15 @@ const AuditSchema = new mongoose.Schema({
   },
   event: {
     type: String,
-    enum: [ "login", "logout", "token_refresh", "login_failed", "session_expired", "forced_logout", "invalid_token" ],
+    enum: [
+      "login",
+      "logout",
+      "token_refresh",
+      "login_failed",
+      "session_expired",
+      "forced_logout",
+      "invalid_token"
+    ],
     required: true,
     index: true
   },
@@ -38,8 +46,7 @@ const AuditSchema = new mongoose.Schema({
     default: 0
   },
   lastAttemptAt: Date
-}, { timestamps: true })
 
-const Audit = mongoose.model("audit", AuditSchema)
+}, { versionKey: false });
 
-module.exports = Audit
+module.exports = mongoose.model("AuthAudit", AuthAuditSchema);
