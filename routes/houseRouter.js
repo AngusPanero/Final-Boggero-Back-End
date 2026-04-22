@@ -1,11 +1,12 @@
 const express = require("express")
-const verifyToken = require("../middleware/authMiddleware")
+const adminMiddleware = require("../middleware/adminMiddleware")
 const houseRouter = express.Router()
 const House = require("../models/HouseSchema")
 
 // Create
-houseRouter.post("/createhouse", /* verifyToken, */ async (req, res) => {
+houseRouter.post("/createhouse", adminMiddleware, async (req, res) => {
     let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, imageUrl, maps } = req.body
+    
     try {
         if(!title || !direction || !operation || !ubication || !price || !typeOfHouse || !description || !condition || !ambients || !bathrooms || !years || !taxes || !covered || !uncovered || !area || !imageUrl || !maps){
             return res.status(404).send({ message: `All fields are required! 🔴` })
@@ -52,7 +53,7 @@ houseRouter.get("/house/:id", async (req, res) => {
 })
 
 // Update
-houseRouter.put("/update/:id", verifyToken, async (req, res) => {
+houseRouter.put("/update/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id
     let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, maps } = req.body
     try {
@@ -91,7 +92,7 @@ houseRouter.put("/update/:id", verifyToken, async (req, res) => {
 })
 
 // Delete
-houseRouter.delete("/delete/:id", verifyToken,async (req, res) => {
+houseRouter.delete("/delete/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id
     try {
         const houseId = await House.findByIdAndDelete(id)
