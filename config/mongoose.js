@@ -1,7 +1,7 @@
 require("dotenv").config()
 const mongoose = require("mongoose")
 
-const esProduccion = (process.env.NODE_ENV === 'ppproduction');
+const esProduccion = (process.env.NODE_ENV === 'pproduction');
 
 const dbConnection = async () => {
     try{

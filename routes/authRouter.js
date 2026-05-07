@@ -14,7 +14,7 @@ const adminMiddleware = require("../middleware/adminMiddleware")
 // Axios
 const axios = require("axios")
 
-const esProduccion = (process.env.NODE_ENV === 'ppproduction');
+const esProduccion = (process.env.NODE_ENV === 'production');
 
 authRouter.post("/register", async (req, res) => {
     const { email, password } = req.body

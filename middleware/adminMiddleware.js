@@ -1,5 +1,5 @@
 const auth = require("../config/firebase");
-const esProduccion = (process.env.NODE_ENV === 'ppproduction');
+const esProduccion = (process.env.NODE_ENV === 'pproduction');
 
 const adminMiddleware = async (req, res, next) => {
     const token = req.cookies.idToken; 

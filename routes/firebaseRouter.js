@@ -6,7 +6,7 @@ const auth = require("../config/firebase"); // Tu configuración de firebase-adm
 const verifyToken = require("../middleware/authMiddleware"); 
 const adminMiddleware = require("../middleware/adminMiddleware");
 
-const esProduccion = (process.env.NODE_ENV === 'ppproduction');
+const esProduccion = (process.env.NODE_ENV === 'production');
 
 firebaseRouter.get("/admin/users", adminMiddleware, async (req, res) => {
     try {

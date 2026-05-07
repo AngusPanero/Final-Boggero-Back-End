@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer")
 
 const mailRouter = express.Router()
 
-const esProduccion = (process.env.NODE_ENV === 'ppproduction');
+const esProduccion = (process.env.NODE_ENV === 'pproduction');
 
 // Contact
 mailRouter.post("/send-email", async (req, res) => {
