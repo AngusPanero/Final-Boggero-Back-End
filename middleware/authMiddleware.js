@@ -1,6 +1,6 @@
 const auth = require("../config/firebase")
 
-const esProduccion = (process.env.NODE_ENV === 'pproduction');
+const esProduccion = (process.env.NODE_ENV === 'production');
 
 const verifyToken = async (req, res, next) => {
     try {

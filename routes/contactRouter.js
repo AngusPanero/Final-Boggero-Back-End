@@ -20,7 +20,7 @@ contactRouter.post("/contact", async (req, res) => {
 })
 
 // Read
-contactRouter.get("/contacts", async (req, res) => {
+/* contactRouter.get("/contacts", async (req, res) => {
     try {
         const contacts = await Contact.find()
         if(contacts.length === 0){
@@ -31,10 +31,10 @@ contactRouter.get("/contacts", async (req, res) => {
         console.error(`Error reading contacts on DB! 🔴 ${error}`);
         res.status(500).send({ message: `Error reading contacts on DB! 🔴 ${error}` })
     }
-})
+}) */
 
 // Delete
-contactRouter.delete("/deletecontact/:id", async (req, res) => {
+/* contactRouter.delete("/deletecontact/:id", async (req, res) => {
     const id = req.params.id
     try {
         const contact = await Contact.findByIdAndDelete(id)
@@ -46,6 +46,6 @@ contactRouter.delete("/deletecontact/:id", async (req, res) => {
         console.error(`Error deleting contact on DB! 🔴 ${error}`);
         res.status(500).send({ message: `Error deleting contact on DB! 🔴 ${error}` })
     }
-})
+}) */
 
 module.exports = contactRouter
