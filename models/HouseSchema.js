@@ -68,6 +68,10 @@ const HouseSchema = new mongoose.Schema ({
     maps: {
         type: String,
         required: true
+    },
+    amenities: {
+        type: [String],
+        default: []
     }
 }, { timestamps: true })
 

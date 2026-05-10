@@ -5,20 +5,30 @@ const House = require("../models/HouseSchema")
 
 // Create
 houseRouter.post("/createhouse", adminMiddleware, async (req, res) => {
-    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, imageUrl, maps } = req.body
-    
+    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, imageUrl, maps, amenities } = req.body
+
     try {
-        if(!title || !direction || !operation || !ubication || !price || !typeOfHouse || !description || !condition || !ambients || !bathrooms || !years || !taxes || !covered || !uncovered || !area || !imageUrl || !maps){
+        if (!title || !direction || !operation || !ubication || !price || !typeOfHouse || !description || !condition || !ambients || !bathrooms || !years || !taxes || !covered || !uncovered || !area || !imageUrl || !maps) {
             return res.status(404).send({ message: `All fields are required! 🔴` })
         }
-        if(!Array.isArray(imageUrl)){
-            imageUrl = [ imageUrl ]
+
+        if (!Array.isArray(imageUrl)) {
+            imageUrl = [imageUrl]
         }
-        const createdHouse = { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, imageUrl, maps }
+
+        const createdHouse = {
+            title, direction, operation, ubication, price,
+            typeOfHouse, description, condition, ambients,
+            bathrooms, years, taxes, covered, uncovered,
+            area, imageUrl, maps,
+            amenities: Array.isArray(amenities) ? amenities : []
+        }
+
         await House.create(createdHouse)
         res.status(201).send({ message: `New house created successfully! 🟢`, house: createdHouse })
+
     } catch (error) {
-        console.error(`Error creating new house! 🔴 ${error}`);
+        console.error(`Error creating new house! 🔴 ${error}`)
         res.status(500).send({ message: `Error creating new house! 🔴 ${error}` })
     }
 })
@@ -55,38 +65,40 @@ houseRouter.get("/house/:id", async (req, res) => {
 // Update
 houseRouter.put("/update/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id
-    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, maps } = req.body
+    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, maps, imageUrl, amenities } = req.body
+
     try {
         const house = await House.findById(id)
-        if(!house){
+        if (!house) {
             return res.status(404).send({ message: `No house with ID: ${id} avaliable in DB! 🔴` })
         }
-        /* if(!Array.isArray(imageUrl)){
-            imageUrl = [ imageUrl ]
-        } */
+
         const updatedHouse = {
-            title: title ?? house.title,
-            direction: direction ?? house.direction,
-            operation: operation ?? house.operation,
-            ubication: ubication ?? house.ubication,
-            price: price ?? house.price,
+            title:       title       ?? house.title,
+            direction:   direction   ?? house.direction,
+            operation:   operation   ?? house.operation,
+            ubication:   ubication   ?? house.ubication,
+            price:       price       ?? house.price,
             typeOfHouse: typeOfHouse ?? house.typeOfHouse,
             description: description ?? house.description,
-            condition: condition ?? house.condition,
-            ambients: ambients ?? house.ambients,
-            bathrooms: bathrooms ?? house.bathrooms,
-            years: years ?? house.years,
-            taxes: taxes ?? house.taxes,
-            covered: covered ?? house.covered,
-            uncovered: uncovered ?? house.uncovered,
-            area: area ?? house.area,
-            imageUrl: house.imageUrl,
-            maps: maps ?? house.maps
+            condition:   condition   ?? house.condition,
+            ambients:    ambients    ?? house.ambients,
+            bathrooms:   bathrooms   ?? house.bathrooms,
+            years:       years       ?? house.years,
+            taxes:       taxes       ?? house.taxes,
+            covered:     covered     ?? house.covered,
+            uncovered:   uncovered   ?? house.uncovered,
+            area:        area        ?? house.area,
+            maps:        maps        ?? house.maps,
+            imageUrl:    Array.isArray(imageUrl) ? imageUrl : house.imageUrl,
+            amenities:   Array.isArray(amenities) ? amenities : (house.amenities ?? [])
         }
+
         await House.findByIdAndUpdate(id, updatedHouse, { new: true })
         res.status(200).send({ message: `House updated successfully! 🟢`, house: updatedHouse })
+
     } catch (error) {
-        console.error(`Error updating houseg! 🔴 ${error}`);
+        console.error(`Error updating house! 🔴 ${error}`)
         res.status(500).send({ message: `Error updating house! 🔴 ${error}` })
     }
 })
