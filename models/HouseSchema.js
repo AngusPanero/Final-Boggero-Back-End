@@ -1,68 +1,68 @@
 const mongoose = require("mongoose")
 
 const HouseSchema = new mongoose.Schema ({
-    title: {// Principal
+    title: {
         type: String,
         required: true
     },
-    direction: {// Principal
+    direction: {
         type: String,
         required: true
     },
-    operation: {//Principal
+    operation: {
         type: String,
         require: true
     },
-    ubication: {// Principal
+    ubication: {
         type: String,
         required: true
     },
-    price: {// Principal
+    price: {
         type: String,
         required: true
     },
-    typeOfHouse: {// Principal
+    typeOfHouse: {
         type: String,
         required: true
     },
-    description: {// descripcion
+    description: {
         type: String,
         required: true
     },
-    condition: { //Basico
+    condition: {
         type: String,
         required: true
     },
-    ambients: { //Basico
+    ambients: {
         type: String,
         required: true
     },
-    bathrooms: { //Basico
+    bathrooms: {
         type: String,
         required: true
     },
-    years: { //Basico
+    years: {
         type: String,
         required: true
     },
-    taxes: { //Superficies y medidas
+    taxes: {
         type: String,
         required: true
     },
-    covered: { //Superficies y medidas
+    covered: {
         type: String,
         required: true
     },
-    uncovered: { //Superficies y medidas
+    uncovered: {
         type: String,
         required: true
     },
-    area: { //Superficies y medidas
+    area: {
         type: String,
         required: true
     },
     imageUrl: {
-        type: [String], // Si subo imágenes en string que eso esperaría si subo varias
+        type: [String],
         required: true
     },
     maps: {
@@ -72,6 +72,10 @@ const HouseSchema = new mongoose.Schema ({
     amenities: {
         type: [String],
         default: []
+    },
+    status: {
+        type: String,
+        default: "Disponible"
     }
 }, { timestamps: true })
 

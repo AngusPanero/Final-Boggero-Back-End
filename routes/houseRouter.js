@@ -5,7 +5,7 @@ const House = require("../models/HouseSchema")
 
 // Create
 houseRouter.post("/createhouse", adminMiddleware, async (req, res) => {
-    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, imageUrl, maps, amenities } = req.body
+    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, imageUrl, maps, amenities, status } = req.body
 
     try {
         if (!title || !direction || !operation || !ubication || !price || !typeOfHouse || !description || !condition || !ambients || !bathrooms || !years || !taxes || !covered || !uncovered || !area || !imageUrl || !maps) {
@@ -21,7 +21,8 @@ houseRouter.post("/createhouse", adminMiddleware, async (req, res) => {
             typeOfHouse, description, condition, ambients,
             bathrooms, years, taxes, covered, uncovered,
             area, imageUrl, maps,
-            amenities: Array.isArray(amenities) ? amenities : []
+            amenities: Array.isArray(amenities) ? amenities : [],
+            status: status ?? "Disponible"
         }
 
         await House.create(createdHouse)
@@ -65,7 +66,7 @@ houseRouter.get("/house/:id", async (req, res) => {
 // Update
 houseRouter.put("/update/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id
-    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, maps, imageUrl, amenities } = req.body
+    let { title, direction, operation, ubication, price, typeOfHouse, description, condition, ambients, bathrooms, years, taxes, covered, uncovered, area, maps, imageUrl, amenities, status } = req.body
 
     try {
         const house = await House.findById(id)
@@ -91,7 +92,8 @@ houseRouter.put("/update/:id", adminMiddleware, async (req, res) => {
             area:        area        ?? house.area,
             maps:        maps        ?? house.maps,
             imageUrl:    Array.isArray(imageUrl) ? imageUrl : house.imageUrl,
-            amenities:   Array.isArray(amenities) ? amenities : (house.amenities ?? [])
+            amenities:   Array.isArray(amenities) ? amenities : (house.amenities ?? []),
+            status:      status      ?? house.status ?? "Disponible"
         }
 
         await House.findByIdAndUpdate(id, updatedHouse, { new: true })
